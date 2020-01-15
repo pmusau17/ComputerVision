@@ -1,0 +1,7 @@
+#Don't track content of these folders
+__pycache__
+datasets
+
+
+#ignore jupyter checkpoints
+*.ipynb_checkpoints/
