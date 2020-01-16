@@ -53,9 +53,27 @@ print("[INFO] features matrix: {:.1f}MB".format(data.nbytes / (1024*1000.0)))
 
 
 #encode the labels as integers. Most machine learning algorithms assume this so that's standard practice
-le=le.fit_transform(labels)
+le=LabelEncoder()
+labels=le.fit_transform(labels)
 
 #partition the data into training and test splits using 75% of the data for training and the remaind 25% for testing
 
 (trainX,testX,trainY,testY)=train_test_split(data,labels,test_size=0.25,random_state=42)
+
+print(trainX.shape,testX.shape)
+print(trainY,testY)
+
+
+#train and evaluate a k-NN classifier on the raw pixel intensities
+print("[INFO] evaluating k-NN classifier...")
+
+#Instantiate the the nearest neighbor classifier
+model=KNeighborsClassifier(n_neighbors=args["neighbors"],n_jobs=args["jobs"])
+
+#A call to fit stores the data internatll so it can create predictions on the testing set by computing the distance between the input data and the train X data
+model.fit(trainX,trainY)
+
+#evaluate the classifer by using the classification_report function. Here you need to supply the testY class labels, the predicted class labels from our model, and optionally the names of 
+#the class labels (i.e. "dog", "cat", "panda")
+print(classification_report(testY, model.predict(testX),target_names=le.classes_))
 
