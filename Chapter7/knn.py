@@ -77,3 +77,6 @@ model.fit(trainX,trainY)
 #the class labels (i.e. "dog", "cat", "panda")
 print(classification_report(testY, model.predict(testX),target_names=le.classes_))
 
+#To draw a label with highest score on an image 
+"""cv2.putText(orig, 'Label: {}'.format(labels[np.argmax(scores)]),(10,30), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0,255,0),2) """
+
