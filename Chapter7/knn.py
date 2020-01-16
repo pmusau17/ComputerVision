@@ -12,8 +12,10 @@ from sklearn.metrics import classification_report #Helps us evaluate the perform
 from preprocessing.simplepreprocessor import SimplePreprocessor
 from datasets.simpledatasetloader import SimpleDatasetLoader
 from imutils import paths
-
 import argparse
+import cv2
+
+
 
 
 
@@ -40,4 +42,20 @@ sdl=SimpleDatasetLoader(preprocessors=[sp])
 
 (data,labels)=sdl.load(imagePaths,verbose=500)
 
-print(data, labels)
+print(data.shape, labels.shape)
+
+data=data.reshape((data.shape[0]),3072)
+
+
+
+#show some information on memory consumption of the images
+print("[INFO] features matrix: {:.1f}MB".format(data.nbytes / (1024*1000.0)))
+
+
+#encode the labels as integers. Most machine learning algorithms assume this so that's standard practice
+le=le.fit_transform(labels)
+
+#partition the data into training and test splits using 75% of the data for training and the remaind 25% for testing
+
+(trainX,testX,trainY,testY)=train_test_split(data,labels,test_size=0.25,random_state=42)
+
