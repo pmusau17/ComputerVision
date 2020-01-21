@@ -130,10 +130,10 @@ class NeuralNetwork:
         # obtain the final prediction
         p = np.atleast_2d(X)
         # check to see if the bias column should be added
-
-        # insert a column of 1s as the last entry in the feature
-        # matrix (bias)
-        #p = np.c_[p, np.ones((p.shape[0]))]
+        if addBias:
+            # insert a column of 1s as the last entry in the feature
+            # matrix (bias)
+            p = np.c_[p, np.ones((p.shape[0]))]
         
 
         # loop over our layers in the network

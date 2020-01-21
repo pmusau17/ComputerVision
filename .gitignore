@@ -5,3 +5,6 @@ datasets
 
 #ignore jupyter checkpoints
 *.ipynb_checkpoints/
+
+#ignore .pyc files
+*.pyc
