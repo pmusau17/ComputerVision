@@ -10,6 +10,7 @@ from keras import Sequential
 
 #The dense is the implementation of fully connected layers
 from keras.layers.core import Dense
+#Stochastic gradient descent
 from keras.optimizers import SGD
 
 import matplotlib.pyplot as plt 
@@ -43,7 +44,7 @@ data = dataset.data.astype("float") / 255.0
 dataset.target, test_size=0.25)
 
 
-# convert the labels from integers to vectors
+# convert the labels from integers to one hot vectors
 lb = LabelBinarizer()
 trainY = lb.fit_transform(trainY)
 testY = lb.transform(testY)
@@ -57,14 +58,12 @@ model.add(Dense(10, activation="softmax"))
 # train the model using SGD
 print("[INFO] training network...")
 sgd = SGD(0.01) #initialize the SGD optimizer with a learning rate of 0.01
-model.compile(loss="categorical_crossentropy", optimizer=sgd,
-metrics=["accuracy"])
+model.compile(loss="categorical_crossentropy", optimizer=sgd, metrics=["accuracy"])
 
 # In most circumstances,
 # such as when you are tuning hyperparameters or deciding on a model architecture, you will want
 # your validation set to be a true validation set and not your testing data
-H = model.fit(trainX, trainY, validation_data=(testX, testY),
-epochs=100, batch_size=128)
+H = model.fit(trainX, trainY, validation_data=(testX, testY),epochs=100, batch_size=128)
 
 # evaluate the network
 print("[INFO] evaluating network...")
@@ -85,3 +84,11 @@ plt.xlabel("Epoch #")
 plt.ylabel("Loss/Accuracy")
 plt.legend()
 plt.savefig(args["output"])
+
+#With this model we are able to obtain 92% accuracy. Furthermore the training and validation curves match each other nearly identically 
+#indicating there is no overfitting or issues with the training process. While 92% accuracy is pretty good with a convolutional neural network
+#we can reach up to 92% accuracy.
+
+#While on the surface it may appear that our (strictly) fully connected is performing well, we can actually do much better. And as we'll see in the next section 
+#stricly fully networks applied to more challenging datasets in some cases can do just barely better than guessing randomly
+
