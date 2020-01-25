@@ -1,3 +1,9 @@
+#ROS and OpenCV don't play nice in python3
+import sys
+if '/opt/ros/kinetic/lib/python2.7/dist-packages' in sys.path:
+    sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages')
+
+
 #import the neccessary packages
 from skimage.exposure import rescale_intensity
 import numpy as np 
@@ -45,13 +51,12 @@ def convolve(image,K):
             #However when applying convolutions we can easily obtain values that fall outside this range
             #In order to bring our output images back into the range we apply the rescale_intensity function
             #of scikit image
-            output=rescale_intensity(output,in_range=(0,255))
+    output=rescale_intensity(output,in_range=(0,255))
 
-            #we also convert our image back into an unsigned 8 bit integer.
-            output=(output*255).astype('uint8')
-
-            #return output image
-
+    #we also convert our image back into an unsigned 8 bit integer.
+    output=(output*255).astype('uint8')
+    #return output image
+    return output
 
 # construct the argument parser and parse the arguments
 # we only require the path to our input image
@@ -109,8 +114,8 @@ for (kernelName,K) in kernelBank:
     #show the output images
     cv2.imshow("Original",gray)
     cv2.imshow("{} - convolve".format(kernelName),convolveOutput)
-    cv2.imshow("{} - opencv").format(kernelName),opencvOutput)
-    cv.waitKey(0)
+    cv2.imshow("{} - opencv".format(kernelName),opencvOutput)
+    cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 
