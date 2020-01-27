@@ -1,3 +1,9 @@
+#ROS and OpenCV don't play nice in python3
+import sys
+if '/opt/ros/kinetic/lib/python2.7/dist-packages' in sys.path:
+    sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages')
+
+
 # import the necessary packages
 import numpy as np
 import cv2

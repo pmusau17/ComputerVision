@@ -1,5 +1,5 @@
 #import keras img_to_array, it will order the channels correctly depending on the backend
-from keras.preprocessing.image import img_to_array
+from tensorflow.python.keras.preprocessing.image import img_to_array
 
 
 #the constructor for this class accepts an optional parameter named dataFormat. This value defaults to Noe which indicates the setting inside keras.json 
