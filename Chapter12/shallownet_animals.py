@@ -48,8 +48,11 @@ data=data.astype("float")/255.0
 trainY=LabelBinarizer().fit_transform(trainY)
 testY=LabelBinarizer().fit_transform(testY)
 #this is me forcing them to take the softmax format
-trainY=np.hstack((trainY, 1 - trainY))
-testY=np.hstack((testY, 1 - testY))
+if(trainY.shape[1]==1):
+    print("[INFO] converting binary output to softmax")
+    trainY=np.hstack((trainY, 1 - trainY))
+    testY=np.hstack((testY, 1 - testY))
+
 
 #initialize the optimizer and model 
 
