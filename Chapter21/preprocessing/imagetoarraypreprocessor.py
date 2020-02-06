@@ -10,6 +10,7 @@ from tensorflow.python.keras.preprocessing.image import img_to_array
 
 
 class ImageToArrayPreprocessor:
+    #the data format is is either "channels first or channels last"
     def __init__(self,dataFormat=None):
         #store the image data format
         self.dataFormat = dataFormat

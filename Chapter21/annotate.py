@@ -80,12 +80,13 @@ for (i, imagePath) in enumerate(imagePaths):
                 os.makedirs(dirPath)
 
             # write the labeled character to file
-            count = counts.get(key, 1)
+            count = counts.get(key, 0)
 
             p = os.path.sep.join([dirPath, "{}.png".format(str(count).zfill(6))])
             cv2.imwrite(p, roi)
             # increment the count for the current key
             counts[key] = count + 1
+            print(key,counts)
     except KeyboardInterrupt:
         print("[INFO] manually leaving script")
         break
