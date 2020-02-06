@@ -51,13 +51,13 @@ labels=np.array(labels)
 
 #partition the data into training and testing splits using 75% of the
 #data for training and the remaining 25% for testing
-(trainX,testX,trainY,testY)=train_test_split(data,labels,test_size=0.25)
+(trainX,testX,trainY,testY)=train_test_split(data,labels,test_size=0.01)
 
 #convert the labels from integers into vectors
 lb=LabelBinarizer()
 trainY=lb.fit_transform(trainY)
 testY=lb.transform(testY)
-
+print(testY[0])
 #Let's create our LeNet Model and SGD optimizer
 print("[INFO] compiling the model")
 model=LeNet.build(width=data[0].shape[1],height=data[0].shape[0],depth=data[0].shape[2],classes=len(trainY[0]))
@@ -66,26 +66,26 @@ model.compile(loss="categorical_crossentropy",optimizer=opt,metrics=['accuracy']
 
 # train the network
 print("[INFO] training network...")
-num_epochs=10
+num_epochs=30
 H = model.fit(trainX, trainY, validation_data=(testX, testY),batch_size=32, epochs=num_epochs, verbose=1)
 
 
 # evaluate the network
 print("[INFO] evaluating network...")
-predictions = model.predict(testX, batch_size=32)
-print(classification_report(testY.argmax(axis=1),predictions.argmax(axis=1), target_names=lb.classes_))
+#predictions = model.predict(testX, batch_size=32)
+#print(classification_report(testY.argmax(axis=1),predictions.argmax(axis=1), target_names=lb.classes_))
 
 # save the model to disk
 print("[INFO] serializing network...")
-model.save(args["model"])
+model.save(args["output"])
 
 # plot the training + testing loss and accuracy
 plt.style.use("ggplot")
 plt.figure()
 plt.plot(np.arange(0, num_epochs), H.history["loss"], label="train_loss")
 plt.plot(np.arange(0, num_epochs), H.history["val_loss"], label="val_loss")
-plt.plot(np.arange(0, num_epochs), H.history["acc"], label="acc")
-plt.plot(np.arange(0, num_epochs), H.history["val_acc"], label="val_acc")
+plt.plot(np.arange(0, num_epochs), H.history["accuracy"], label="accuracy")
+plt.plot(np.arange(0, num_epochs), H.history["val_accuracy"], label="val_accuracy")
 plt.title("Training Loss and Accuracy")
 plt.xlabel("Epoch #")
 plt.ylabel("Loss/Accuracy")

@@ -48,7 +48,7 @@ for (i, imagePath) in enumerate(imagePaths):
         # ones. Explained simply contours are simply a curve joining all the 
         # continuos points (along the boundary) that have the same color or intensity
         #Theoretically, Contours means detecting curves
-        cnts,hierarcy = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+        cnts,hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     
 
         #Just in case there is noise in the image we sort the contours by their area, keeping only the four largest ones 
