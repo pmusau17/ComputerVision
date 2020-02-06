@@ -4,8 +4,6 @@ import argparse
 import tensorflow as tf
 
 
-
-
 #arguments for getting the fraction
 ap=argparse.ArgumentParser()
 ap.add_argument("-f","--fraction",required=True, help="maximum fraction you want a process to be able to use on the GPU")
