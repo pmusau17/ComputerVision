@@ -19,7 +19,7 @@ import imutils
 import cv2
 import os
 
-# construct the argument parse and parse the arguments
+# construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-d", "--dataset", required=True,help="path to input dataset of faces")
 ap.add_argument("-o", "--output", required=True,help="directory where to output the model")
