@@ -4,6 +4,7 @@ if '/opt/ros/kinetic/lib/python2.7/dist-packages' in sys.path:
     sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages')
 
 from nms import non_max_suppression_slow
+from nms import non_max_suppression_fast
 import numpy as np 
 import cv2
 
@@ -37,7 +38,8 @@ for (imagePath, boundingBoxes) in images:
     for (startX, startY, endX, endY) in boundingBoxes:
         cv2.rectangle(orig, (startX, startY), (endX, endY), (0, 0, 255), 2)
     # perform non-maximum suppression on the bounding boxes
-    pick = non_max_suppression_slow(boundingBoxes, 0.3)
+    #pick = non_max_suppression_slow(boundingBoxes, 0.3)
+    pick = non_max_suppression_fast(boundingBoxes, 0.3)
     print ("[x] after applying non-maximum, {} bounding boxes".format(len(pick)))
     # loop over the picked bounding boxes and draw them
     #print(pick)
