@@ -21,9 +21,6 @@ ap.add_argument("-d", "--dataset", required=True,help="path to input dataset")
 args = vars(ap.parse_args())
 
 
-
-
-
 #Example of randomly rotating am image by -20 to 20 degrees, you can also fill 
 #up any newly created pixels with a random RGB color: 
 rotate=iaa.Affine(rotate=(-25,25))
