@@ -37,10 +37,8 @@ for imagePath in sorted(list(paths.list_images(args["dataset"]))):
 seq = iaa.Sequential([
 
     iaa.Fliplr(0.5), # horizontal flips
-
     iaa.Crop(percent=(0, 0.1)), # random crops
-
-
+    
     # Small gaussian blur with random sigma between 0 and 0.5.
     # But we only blur about 50% of all images.
     iaa.Sometimes(

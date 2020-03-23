@@ -9,7 +9,7 @@ args=vars(ap.parse_args())
 
 image=cv2.imread(args['image'])
 
-#conver the image to grayscale and show it
+#convert the image to grayscale and show it
 image=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 cv2.imshow("Original",image)
 cv2.waitKey(0)
