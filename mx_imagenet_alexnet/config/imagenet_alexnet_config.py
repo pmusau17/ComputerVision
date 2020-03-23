@@ -14,7 +14,7 @@ IMAGES_PATH = BASE_PATH
 
 #This path points to the directory containing the important train_cls.txt
 #and val.txt which explicitly list out the filenames
-IMAGE_SETS_PATH=''
+IMAGE_SETS_PATH=BASE_PATH
 
 #the path to our DevKit lives
 DEVKIT_PATH=path.sep.join([BASE_PATH,'ILSVRC/devkit/data'])
@@ -26,26 +26,12 @@ WORD_IDS = path.sep.join([DEVKIT_PATH,'map_clsloc.txt'])
 
 #define the paths to the training file that maps the (partial)
 #image filename to integer class label
-TRAIN_LIST = path.sep.join([IMAGE_SETS_PATH,"train_cls.txt"])
+TRAIN_LIST = path.sep.join([IMAGE_SETS_PATH,"train"])
 
 #define the paths to the validation filenames along with the file 
 #that contains the ground truth validation labels
 
-VAL_LIST = path.sep.join([IMAGE_SETS_PATH,"val.txt"])
-
-VAL_LABELS = path.sep.join([DEVKIT_PATH,'ILSVRC2015_clsloc_validation_ground_truth.txt'])
-
-#define the path to the validation files that are blacklisted T_PATH,'map_clsloc.txt'])
-
-
-#define the paths to the training file that maps the (partial)
-#image filename to integer class label
-TRAIN_LIST = path.sep.join([IMAGE_SETS_PATH,"train_cls.txt"])
-
-#define the paths to the validation filenames along with the file 
-#that contains the ground truth validation labels
-
-VAL_LIST = path.sep.join([IMAGE_SETS_PATH,"val.txt"])
+VAL_LIST = path.sep.join([IMAGE_SETS_PATH,"val"])
 
 VAL_LABELS = path.sep.join([DEVKIT_PATH,'ILSVRC2015_clsloc_validation_ground_truth.txt'])
 
