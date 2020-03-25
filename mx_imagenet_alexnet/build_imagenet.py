@@ -40,4 +40,42 @@ datasets = [
 # initialize the list of Red, Green, and Blue averages
 (R,G,B) = ([],[],[])
 
+# loop over the dataset tuples
+for (dType, paths, labels, outputPath) in datasets:
+    # open the output file for writing
+    print("[INFO] building {}".format(outputPath))
+    f = open(outputPath, "w")
 
+    #initialize the progress bar
+    widgets = ["Building List:", progressbar.Percentage(), " ", progressbar.Bar()," ",progressbar.ETA()]
+    pbar= progressbar.ProgressBar(maxval=len(paths),widgets=widgets).start()
+
+    for (i, (path,label)) in enumerate(zip(paths,labels)):
+        # write the image index, label, and output path to file
+        #the join takes the first value and then put it between the succeeding elements
+        # in the iterable
+        row = "\t".join([str(i),str(label),path])
+        f.write("{}\n".format(row))
+
+        # if we are building the training dataset, then compute the 
+        # mean of each channel in the image then update the respective lists
+
+        if dType == "train":
+            image = cv2.imread(path)
+            (b,g,r) = cv2.mean(image)[:3]
+            R.append(r)
+            G.append(g)
+            B.append(b)
+
+        #update the progress bar
+        pbar.update(i)
+    pbar.finish()
+    f.close()
+
+#construct a dictionary of averages then serialize the means to a JSON file
+print("[INFO] serializing means...")
+
+D= {"R": np.mean(R),"G":np.mean(G),"B":np.mean(B)}
+f = open(config.DATASET_MEAN,'w')
+f.write(json.dumps(D))
+f.close()
