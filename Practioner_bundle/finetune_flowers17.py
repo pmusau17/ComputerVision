@@ -42,7 +42,6 @@ args = vars(ap.parse_args())
 HEAD_TUNING_EPOCHS = 25
 FINAL_TUNING_EPOCHS = 100
 BATCH_SIZE = 32
-#
 
 # Initalize the ImageDataGeneraor, responsible for performing data augmentation
 # when training the network
