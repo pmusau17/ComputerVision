@@ -1,0 +1,16 @@
+              precision    recall  f1-score   support
+
+    airplane       0.82      0.84      0.83      1000
+  automobile       0.91      0.92      0.92      1000
+        bird       0.84      0.64      0.72      1000
+         cat       0.79      0.51      0.62      1000
+        deer       0.78      0.76      0.77      1000
+         dog       0.79      0.68      0.73      1000
+        frog       0.61      0.96      0.75      1000
+       horse       0.84      0.88      0.86      1000
+        ship       0.90      0.91      0.90      1000
+       truck       0.85      0.92      0.89      1000
+
+    accuracy                           0.80     10000
+   macro avg       0.81      0.80      0.80     10000
+weighted avg       0.81      0.80      0.80     10000
