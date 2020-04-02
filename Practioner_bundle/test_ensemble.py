@@ -32,7 +32,7 @@ testY = lb.fit_transform(testY)
 # construct the path used to collect the models, then utilize the 
 # models list
 
-modelPaths = os.path.sep.join([args["models"],"*.models"]) # this will produce something like this path_name/*.models
+modelPaths = os.path.sep.join([args["models"],"*.model"]) # this will produce something like this path_name/*.models
 modelPaths = list(glob.glob(modelPaths))
 models = []
 
@@ -52,7 +52,7 @@ predictions =[]
 for model in models:
     # use the current model to make predictions on the testing data,
     # then store these predictions in the aggregate predictions list
-    predictions.append(model.predict(testX,bacth_size=64))
+    predictions.append(model.predict(testX,batch_size=64))
 
 # average the probabilities across all model predictions, then show 
 # a classification report 
