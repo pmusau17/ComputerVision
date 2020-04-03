@@ -48,3 +48,34 @@ for j in range(1,11):
     _, train_acc = model.evaluate(trainX,trainY)
     _, test_acc = model.evaluate(testX,testY)
     print(train_acc,test_acc)
+
+
+# let's try Linearly and exponentially decreasing weighted average
+
+cm= CombineModels('averaging_study','*.hdf5')
+
+num_models = len(cm.models)
+# linearly decreasing weighting 
+weights = [(i)/float(num_models) for i in range(num_models,0,-1)]
+print(weights)
+model=cm.model_weight_ensemble(weights)
+
+# Evaluate the model
+_, train_acc = model.evaluate(trainX,trainY)
+_, test_acc = model.evaluate(testX,testY)
+
+print("Linear Decreasing:",train_acc,test_acc)
+
+# exponentially weighted average
+m= CombineModels('averaging_study','*.hdf5')
+
+num_models = len(cm.models)
+# linearly decreasing weighting 
+weights = [np.exp(-i/2.0) for i in range(1,num_models+1)]
+model=cm.model_weight_ensemble(weights)
+print(weights)
+# Evaluate the model
+_, train_acc = model.evaluate(trainX,trainY)
+_, test_acc = model.evaluate(testX,testY)
+
+print("Exponentially Decreasing:",train_acc,test_acc)
