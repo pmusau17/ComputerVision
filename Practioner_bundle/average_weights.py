@@ -29,7 +29,6 @@ cm = CombineModels(args['models'],args['searchpattern'])
 num_models = len(cm.models)
 
 weights = [(1)/float(num_models) for i in range(0,num_models)]
-print(weights)
 
 # create the average from the ensemble
 model=cm.model_weight_ensemble(weights)
@@ -46,16 +45,10 @@ labelNames = ["airplane","automobile","bird","cat","deer","dog",
 lb = LabelBinarizer()
 testY = lb.fit_transform(testY)
 
-predictions=model.predict(testX,batch_size=64)
+for j in range(1,6):
+    model=cm.evaluate_n_members(j)
+    _, test_acc = model.evaluate(testX,testY)
+    print("num_models {}, test_accuracy {}".format(j,test_acc))
 
-preds=predictions.argmax(axis=1)
-tests=testY.argmax(axis=1)
-print(np.unique(preds),tests[:10])
-
-# average the probabilities across all model predictions, then show 
-# a classification report 
-print(classification_report(testY.argmax(axis=1),
-    predictions.argmax(axis=1),
-    target_names=labelNames))
 
 
