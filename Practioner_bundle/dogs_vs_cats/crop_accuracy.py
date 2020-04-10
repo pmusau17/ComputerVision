@@ -29,7 +29,7 @@ means = json.loads((open(config.DATASET_MEAN).read()))
 
 # initialize the image preprocesors 
 sp = SimplePreprocessor(227,227)
-pp = PatchPreprocessor(227,227)
+cp = CropPreprocessor(227,227)
 mp = MeanPreprocessor(means['R'],means['G'],means['B'])
 iap = ImageToArrayPreprocessor()
 
@@ -45,9 +45,47 @@ testGen = HDF5DatasetGenerator(config.TEST_HDF5,64,preprocessors=[sp,mp,iap],
 
 predictions = model.predict(testGen.generator(),steps=testGen.numImages//64,max_queue_size=64 *2,verbose=1)
 
-# compute the rank-1 and rank-5 accuracies
+# compute the rank-1  accuracy
+
+print(testGen.db['labels'][0:100])
 
 (rank1, _) = rank_accuracy(predictions,testGen.db['labels'])
 
 print("[ACCURACY] rank-1: {:.2f}%".format(rank1*100))
+
+# re-initialize the testing set generator, this time excluding the the 'Simple Preprocessor'
+# When we don't preprocess the images the size is 256 x 256 which is fine since w are trying now to crop 
+# 10 different versions of the images at a time.
+
+testGen = HDF5DatasetGenerator(config.TEST_HDF5,64,preprocessors=[mp],classes=2)
+predictions = []
+
+# Initialize the progress bar widgets
+widgets = ["Evaluating: ", progressbar.Percentage(), " ",
+    progressbar.Bar(), " ", progressbar.ETA()]
+
+# Initialize the progressbar
+pbar = progressbar.ProgressBar(maxval=testGen.numImages // 64, widgets=widgets).start()
+
+# loop over a single pass of the test data 
+for (i, (images,labels)) in enumerate(testGen.generator(passes=1)):
+    # loop over each of the individual images 
+    for image in images: 
+        # apply the crop preprocessor to the image to generate 10
+        # seperate crops, then convert them from images to arrays
+
+        crops = cp.preprocess(image) # this results in 10 different crops of the same image
+        crops = np.array([iap.preprocess(c) for c in crops],dtype="float32")
+
+        # make predictions on the crops and then average them together
+        # to obtain the final prediction
+
+        pred = model.predict(crops)
+        print(pred)
+        predictions.append(pred.mean(axis=0))
+
+
+
+
+
 

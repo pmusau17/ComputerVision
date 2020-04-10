@@ -83,7 +83,7 @@ class AlexNet:
 
         # softmax classifier
         model.add(Dense(classes,kernel_regularizer=l2(reg)))
-        model.add(Activation("relu"))
+        model.add(Activation("softmax"))
 
         # return the constructed network architechture
         return model 

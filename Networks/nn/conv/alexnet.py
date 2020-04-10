@@ -43,16 +43,13 @@ class AlexNet:
 		model.add(Dropout(0.25))
 
 		# Block #3: CONV => RELU => CONV => RELU => CONV => RELU
-		model.add(Conv2D(384, (3, 3), padding="same",
-			kernel_regularizer=l2(reg)))
+		model.add(Conv2D(384, (3, 3), padding="same",kernel_regularizer=l2(reg)))
 		model.add(Activation("relu"))
 		model.add(BatchNormalization(axis=chanDim))
-		model.add(Conv2D(384, (3, 3), padding="same",
-			kernel_regularizer=l2(reg)))
+		model.add(Conv2D(384, (3, 3), padding="same",kernel_regularizer=l2(reg)))
 		model.add(Activation("relu"))
 		model.add(BatchNormalization(axis=chanDim))
-		model.add(Conv2D(256, (3, 3), padding="same",
-			kernel_regularizer=l2(reg)))
+		model.add(Conv2D(256, (3, 3), padding="same",kernel_regularizer=l2(reg)))
 		model.add(Activation("relu"))
 		model.add(BatchNormalization(axis=chanDim))
 		model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
