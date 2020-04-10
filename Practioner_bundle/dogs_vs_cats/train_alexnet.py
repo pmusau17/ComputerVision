@@ -20,7 +20,7 @@ from preprocessing.croppreprocessor import CropPreprocessor
 from callbacks.trainingmonitor import TrainingMonitor
 from input_output.hdf5datasetgenerator import HDF5DatasetGenerator
 from nn.conv.alexnet import AlexNet
-from keras.preprocessing.image import ImageDataGenerator
+from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import Adam
 import json
 import os 

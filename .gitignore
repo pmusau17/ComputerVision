@@ -5,6 +5,8 @@ Chapter21/datasets
 Chapter21/downloads
 weights
 
+# ignore all the pictures
+*.JPEG
 
 #ignore jupyter checkpoints
 *.ipynb_checkpoints/

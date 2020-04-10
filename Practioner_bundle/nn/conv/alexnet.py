@@ -10,7 +10,7 @@ from tensorflow.python.keras.layers.core import Flatten
 from tensorflow.python.keras.layers.core import Dropout
 from tensorflow.python.keras.layers.core import Dense
 from tensorflow.keras.regularizers import l2 
-from keras import backend as K 
+from tensorflow.python.keras import backend as K 
 
 
 class AlexNet:
