@@ -1,7 +1,7 @@
 # import the customary packages
 import numpy as np 
 
-def rank_accuracy(preds,labels,n):
+def rank_accuracy(preds,labels,n=5):
     # initialize the rank-1 and rank-5 accuracies
     rank1 = 0
     rankn = 0
