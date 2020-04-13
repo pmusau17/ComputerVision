@@ -81,8 +81,20 @@ for (i, (images,labels)) in enumerate(testGen.generator(passes=1)):
         # to obtain the final prediction
 
         pred = model.predict(crops)
-        print(pred)
+       
         predictions.append(pred.mean(axis=0))
+    
+    # update the progressbar 
+    pbar.update(i)
+
+# compute the rank-1 accuracy
+pbar.finish()
+
+print("[INFO] predicting on test data (with crops)...")
+(rank1, _) = rank_accuracy(predictions,testGen.db['labels'])
+print("[ACCURACY] rank-1: {:.2f}%".format(rank1*100))
+
+testGen.close()
 
 
 
