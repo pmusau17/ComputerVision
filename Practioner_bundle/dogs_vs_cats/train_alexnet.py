@@ -50,7 +50,7 @@ print("[INFO] compiling model...")
 opt = Adam(lr=1e-3,beta_1=0.9,beta_2=0.999)
 
 model = AlexNet.build(height=227,width=227,depth=3, classes=2, reg=0.0002)
-model.compile(loss="categorical_crossentropy",optimizer=opt,metrics=['accuracy'])
+model.compile(loss="binary_crossentropy",optimizer=opt,metrics=['accuracy'])
 
 # construct the set of callbacks
 
