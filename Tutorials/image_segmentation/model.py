@@ -68,6 +68,6 @@ class CustomSegmentationModel:
 if __name__=='__main__':
     model=CustomSegmentationModel.build(224,224,3,50)
     print(model.summary())
-
+    
 
         

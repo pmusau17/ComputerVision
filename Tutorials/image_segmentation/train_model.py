@@ -11,4 +11,4 @@ model = CustomSegmentationModel.build(360,480,3,50)
 model.train( 
 train_images = 'dataset1/images_prepped_train/' ,
 train_annotations = 'dataset1/annotations_prepped_train', 
-checkpoints_path = '', epochs = 5 ) 
+checkpoints_path = 'checkpoints/custom_model', epochs = 5 ) 
