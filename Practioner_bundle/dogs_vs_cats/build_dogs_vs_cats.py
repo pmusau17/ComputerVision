@@ -57,7 +57,6 @@ datasets = [
 ]
 
 # intialize the image preprocessor and list of RGB channel averages
-
 aap = AspectAwarePreprocessor(256,256)
 (R,G,B) = ([],[],[])
 
