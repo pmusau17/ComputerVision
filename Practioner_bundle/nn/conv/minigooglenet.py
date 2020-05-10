@@ -57,7 +57,7 @@ class MiniGoogLeNet:
         # across channel dimensions
 
         conv_3x3 = MiniGoogLeNet.conv_module(x,K,3,3,(2,2),chanDim,padding='valid')
-        pool = MaxPooling2D(3,3,strides=(2,2))(x)
+        pool = MaxPooling2D((3,3),strides=(2,2))(x)
 
         x = concatenate([conv_3x3,pool],axis=chanDim)
 
