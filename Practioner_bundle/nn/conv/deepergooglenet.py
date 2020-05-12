@@ -49,7 +49,7 @@ class DeeperGoogLeNet:
             actName  = name + "_act"
 
         # define a CONV => BN => RELU pattern
-        x = Conv2D(K,(kX,kY),strides=stride,padding=padding,kernel_regularizer=l2(reg),name=convName)
+        x = Conv2D(K,(kX,kY),strides=stride,padding=padding,kernel_regularizer=l2(reg),name=convName)(x)
         x = BatchNormalization(axis=chanDim,name=bnName)(x)
         x = Activation("relu",name=actName)(x)
 
@@ -100,5 +100,68 @@ class DeeperGoogLeNet:
         if K.image_data_format() == "channels_first":
             inputShape = (depth,height,width)
             chanDim = 1
+
+        # define the model input, followed by a sequence of a CONV => 
+        # POOL => (CONV * 2) => POOL layers
+
+        print(inputShape)
+        inputs = Input(shape=inputShape)
+
+        # 64 filters of shape 5x5
+        x = DeeperGoogLeNet.conv_module(inputs,64,5,5,(1,1),chanDim,reg=reg,name="block1")
+        # Maxpooling reduce the spatial dimensions by half using 3x3 filter
+        x = MaxPooling2D((3,3),strides=(2,2),padding='same',name='pool1')(x)
+        
+        # 64 filters of shape 1x1
+        x = DeeperGoogLeNet.conv_module(x,64,1,1,(1,1),chanDim,reg=reg,name='block2')
+
+        # 192 filters of shape 3x3
+        x = DeeperGoogLeNet.conv_module(x,192,3,3,(1,1),chanDim,reg=reg,name='block3')
+
+        # further reduce the spatial dimensions
+        x = MaxPooling2D((3,3),strides=(2,2),padding="same",name="pool2")(x)
+
+
+        # apply Two Inception modules followed by POOL
+
+        x = DeeperGoogLeNet.inception_module(x,64,96,128,16,32,32,chanDim,'3a',reg=reg)
+
+        x = DeeperGoogLeNet.inception_module(x,128,128,192,32,96,64,chanDim,'3b',reg=reg)
+
+        x = MaxPooling2D((3,3),strides=(2,2),padding="same",name="pool3")(x)
+
+        # apply five Inception modules followed by POOl
+
+        x = DeeperGoogLeNet.inception_module(x,192,96,208,16,48,64,chanDim,'4a',reg=reg)
+        
+        x = DeeperGoogLeNet.inception_module(x,160,112,224,24,64,64,chanDim,'4b',reg=reg)
+
+        x = DeeperGoogLeNet.inception_module(x,128,128,256,24,64,64,chanDim,'4c',reg=reg)
+
+        x = DeeperGoogLeNet.inception_module(x,112,144,288,32,64,64,chanDim,'4d',reg=reg)
+
+        x = DeeperGoogLeNet.inception_module(x,256,160,320,32,128,128,chanDim,'4e',reg=reg)
+
+        x = MaxPooling2D((3,3),strides=(2,2),padding="same",name="pool4")(x)
+
+        # At this point our output volume size is 4x4 classes. To avoid the usage of computationally
+        # expensive fully-connected layers (not mention, dramatically increased network size), we apply 
+        # average pooling with a 4x4 kernel to reduce the volume size of 1 x 1 x classes:
+
+        x = AveragePooling2D((4,4),name="pool5")(x)
+        x = Dropout(0.4,name="do")(x)
+
+        # softmax classifier 
+        x = Flatten(name = "flatten")(x)
+        x = Dense(classes, kernel_regularizer=l2(reg),name="labels")(x)
+        x = Activation("softmax",name="softmax")(x)
+
+        # create the model 
+        model = Model(inputs,x,name="googlenet")
+
+        # return the constructed network architechture
+        return model 
+
+
 
      
