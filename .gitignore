@@ -16,3 +16,9 @@ weights
 
 #ignore .pyc files
 *.pyc
+
+# Ignore TFOD
+Object_Detection/models
+Object_Detection/cocoapi
+Object_Detection/signDatabasePublicFramesOnly
+lisa/
