@@ -74,10 +74,12 @@ else:
 
 
 # construct the set of callbacks
+# -- EpochCheckpoint will save a checkpoint file every 5 epochs
+# -- TrainingCheckpoint will log the loss and accuracy to a log file and plot for every epoch of training
 
 callbacks = [
     EpochCheckpoint(args['checkpoints'],every=5,startAt=args['start_epoch']),
-    TrainingMonitor(config.FIG_PATH,jsonPath=config.JSON_PATH,startAt=args['start_epoch'])
+    TrainingMonitor('logs',jsonPath='logs',startAt=args['start_epoch'])
 ]
 
 # train the network 
