@@ -83,14 +83,14 @@ def main(_): # at this point i'm assuming that _ means void (don't know though)
         # number of examples written to file 
 
         print("[INFO] processing '{}'...".format(dtype))
-        writer = tf.python_io.TRecordWriter(outputPath)
+        writer = tf.python_io.TFRecordWriter(outputPath)
 
         total = 0
 
-        # loop over all the keys in the current set 
+        # loop over all the keys in the current set (the keys are each image)
         for k in keys:
             # load the input image from disk as a Tensorflow object 
-            encoded = tf.gfile.GFile(k,"rb").read()
+            encoded = tf.io.gfile.GFile(k,"rb").read()
             encoded  = bytes(encoded)
 
             # load the image from disk again, this time as a PIL
@@ -100,7 +100,7 @@ def main(_): # at this point i'm assuming that _ means void (don't know though)
             (w,h) = pilImage.size[:2]
 
             # parse the filename and encoding from the input path 
-            filename = k.split(os.path)[-1]
+            filename = k.split(os.path.sep)[-1]
             encoding = filename[filename.rfind(".")+1]
 
             # initialize the annotation object used to store 
@@ -110,7 +110,7 @@ def main(_): # at this point i'm assuming that _ means void (don't know though)
             tfAnnot.image = encoded
             tfAnnot.encoding = encoding
             tfAnnot.filename = filename
-            ffAnnot.width = w
+            tfAnnot.width = w
             tfAnnot.height = h 
 
             for (label,(startX,startY,endX,endY)) in D[k]:
@@ -148,12 +148,12 @@ def main(_): # at this point i'm assuming that _ means void (don't know though)
             writer.write(example.SerializeToString())
 
 
-    # close the writer and print diagnostic information to the user 
-    writer.close()
-    print("[INFO] {} examples save for '{}'".format(total,dtype))
+        # close the writer and print diagnostic information to the user 
+        writer.close()
+        print("[INFO] {} examples save for '{}'".format(total,dtype))
 
-    # check to see if the main thread should be started
-
-
+# check to see if the main thread should be started
+if __name__ == "__main__":
+    tf.app.run()
 
 

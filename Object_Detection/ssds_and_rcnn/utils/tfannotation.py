@@ -6,6 +6,8 @@ from object_detection.utils.dataset_util import int64_feature
 from object_detection.utils.dataset_util import bytes_feature
 
 class TFAnnotation:
+
+    """ This class represents the encoding of one image for the TFOD API"""
     def __init__(self):
         # initialize the bounding box and label lists 
         self.xMins = []
@@ -31,8 +33,8 @@ class TFAnnotation:
         w = int64_feature(self.width)
         h = int64_feature(self.height)
 
-        filename = bytes_feature(self.filename.encode("utf8"))
-        encoding = bytes_feature(self.encoding.encode("utf8"))
+        filename = bytes_feature(self.filename.encode("utf-8"))
+        encoding = bytes_feature(self.encoding.encode("utf-8"))
 
         image = bytes_feature(self.image)
 
@@ -43,12 +45,12 @@ class TFAnnotation:
 
         textLabels = bytes_list_feature(self.textLabels)
         classes = int64_list_feature(self.classes)
-        difficult = int64_feature(self.difficult)
+        difficult = int64_list_feature(self.difficult)
 
         # construct the Tensorflow-compatible data dictionary 
         data = {
             "image/height": h,
-            "image/widht": w,
+            "image/width": w,
             "image/filename": filename,
             "image/source_id": filename,
             "image/encoded": image,
