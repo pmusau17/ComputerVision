@@ -90,7 +90,7 @@ def main(_): # at this point i'm assuming that _ means void (don't know though)
         # loop over all the keys in the current set (the keys are each image)
         for k in keys:
             # load the input image from disk as a Tensorflow object 
-            encoded = tf.io.gfile.GFile(k,"rb").read()
+            encoded = tf.gfile.GFile(k,"rb").read()
             encoded  = bytes(encoded)
 
             # load the image from disk again, this time as a PIL
